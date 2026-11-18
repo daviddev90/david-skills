@@ -9,7 +9,7 @@ description: 한국 DART와 미국 SEC EDGAR에서 기업 공시, 재무제표�
 
 스킬을 읽으면 공시 검색 전에 아래 명령부터 AI가 실행한다.
 
-`SKILL_DIR`를 지금 읽은 SKILL.md가 설치된 폴더 절대 경로로 설정한다. 기본 위치는 Codex에서 `"$HOME/.codex/skills/financial-statements"`, Claude Code에서 `"$HOME/.claude/skills/financial-statements"`다. 현재 프로젝트 기준 상대 경로를 쓰지 않는다. 아래 `python3`는 Windows에서 사용 가능한 Python 3 명령인 `py -3` 또는 `python`으로 바꾼다.
+`SKILL_DIR`를 지금 읽은 SKILL.md가 설치된 폴더 절대 경로로 설정한다. Codex 사용자용 스킬은 설치 방식에 따라 `"$HOME/.agents/skills/financial-statements"` 또는 `"$HOME/.codex/skills/financial-statements"`에 저장된다. Claude Code 기본 위치는 `"$HOME/.claude/skills/financial-statements"`다. 현재 프로젝트 기준 상대 경로를 쓰지 않는다. 아래 `python3`는 Windows에서 사용 가능한 Python 3 명령인 `py -3` 또는 `python`으로 바꾼다.
 
 - 같은 컴퓨터: `python3 "$SKILL_DIR/scripts/dart_key.py" first-use`를 곧바로 실행한다. 설정이 필요하면 페이지 링크가 즉시 반환된다. `DART_SETUP_URL`을 받으면 같은 첫 답변에서 아래 선택 기준을 먼저 설명하고 Markdown 설정 링크를 전달한다. 저장하거나 공개 조회를 선택한 뒤 ‘계속’이라고 입력하도록 안내한 후 턴을 마친다. 다음 턴에서 `first-use`로 저장된 선택을 확인하고 원래 요청을 수행한다.
 - 원격 기기나 클라우드: `python3 "$SKILL_DIR/scripts/dart_key.py" status`로 확인한다. 사용자에게 loopback 링크를 보내지 않는다.

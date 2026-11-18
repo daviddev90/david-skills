@@ -14,7 +14,7 @@ AI가 한국 DART와 미국 SEC EDGAR에서 기업 공시, 재무제표와 주�
 
 코딩 에이전트 채팅에 아래 문구를 붙여 넣으세요.
 
-> https://github.com/daviddev90/david-skills.git 저장소에서 financial-statements 스킬을 찾아, 지금 쓰는 코딩 에이전트에 어느 프로젝트에서든 쓸 수 있게 설치해 줘. 실행에 필요한 Python 3도 확인해 줘.
+> https://github.com/daviddev90/david-skills.git 저장소에서 financial-statements 스킬을 찾아, 지금 쓰는 코딩 에이전트에서 어느 프로젝트에서든 쓸 수 있도록 내 사용자 계정에 설치해 줘. 실행에 필요한 Python 3도 확인해 줘.
 
 ## 사용
 
