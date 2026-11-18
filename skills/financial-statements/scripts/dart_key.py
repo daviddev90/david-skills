@@ -100,8 +100,16 @@ class SetupHandler(BaseHTTPRequestHandler):
     def valid_page(self):
         return self.path == self.server.page_path and self.headers.get("Host") == self.server.host_header
 
-    def send_page(self, state, message="", code=200):
-        markup = self.server.template.replace("{{STATE}}", state).replace("{{ERROR}}", html.escape(message))
+    def send_page(self, state, message="", code=200, initial_tab=None):
+        nonce = secrets.token_urlsafe(24)
+        if initial_tab is None:
+            initial_tab = "api" if state == "error" else self.server.initial_tab
+        markup = (
+            self.server.template.replace("{{STATE}}", state)
+            .replace("{{INITIAL_TAB}}", initial_tab)
+            .replace("{{NONCE}}", nonce)
+            .replace("{{ERROR}}", html.escape(message))
+        )
         body = markup.encode("utf-8")
         self.send_response(code)
         self.send_header("Content-Type", "text/html; charset=utf-8")
@@ -111,7 +119,8 @@ class SetupHandler(BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header(
             "Content-Security-Policy",
-            "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
+            f"default-src 'none'; script-src 'nonce-{nonce}'; style-src 'unsafe-inline'; "
+            "form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
         )
         self.end_headers()
         self.wfile.write(body)
@@ -148,7 +157,7 @@ class SetupHandler(BaseHTTPRequestHandler):
                 flag.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
                 flag.touch(mode=0o600)
             except OSError:
-                self.send_page("error", "선택을 저장하지 못했습니다. 다시 시도해 주세요.", 503)
+                self.send_page("error", "선택을 저장하지 못했습니다. 다시 시도해 주세요.", 503, initial_tab="public")
                 return
             self.server.result = PUBLIC
             self.send_page("public")
@@ -178,10 +187,11 @@ class SetupHandler(BaseHTTPRequestHandler):
         self.send_page("saved")
 
 
-def setup_page(timeout, emit_result=True):
+def setup_page(timeout, initial_tab, emit_result=True):
     markup = TEMPLATE.read_text(encoding="utf-8")
     with HTTPServer(("127.0.0.1", 0), SetupHandler) as server:
         server.template = markup
+        server.initial_tab = initial_tab
         server.host_header = f"127.0.0.1:{server.server_port}"
         server.origin = f"http://{server.host_header}"
         server.page_path = "/" + secrets.token_urlsafe(24)
@@ -197,14 +207,17 @@ def setup_page(timeout, emit_result=True):
     return 0 if result != "DART_SETUP_EXPIRED" else 4
 
 
-def start_setup(timeout):
+def start_setup(timeout, initial_tab):
     if sys.platform == "win32":
         options = {"creationflags": subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP}
     else:
         options = {"start_new_session": True}
     try:
         process = subprocess.Popen(
-            [sys.executable, "-B", str(Path(__file__).resolve()), "setup", "--serve", "--timeout", str(timeout)],
+            [
+                sys.executable, "-B", str(Path(__file__).resolve()), "setup", "--serve",
+                "--timeout", str(timeout), "--initial-tab", initial_tab,
+            ],
             stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
@@ -262,6 +275,7 @@ def main():
         command.add_argument("--timeout", type=int, default=600)
         if name == "setup":
             command.add_argument("--serve", action="store_true", help=argparse.SUPPRESS)
+            command.add_argument("--initial-tab", choices=("public", "api"), default="api", help=argparse.SUPPRESS)
     request = commands.add_parser("fetch")
     request.add_argument("endpoint")
     request.add_argument("params", nargs="*")
@@ -279,9 +293,11 @@ def main():
             return 0
     if not 1 <= args.timeout <= 1800:
         parser.error("설정 페이지 대기 시간은 1초에서 30분 사이여야 합니다.")
-    if args.command == "setup" and args.serve:
-        return setup_page(args.timeout, emit_result=False)
-    return start_setup(args.timeout)
+    if args.command == "setup":
+        if args.serve:
+            return setup_page(args.timeout, args.initial_tab, emit_result=False)
+        return start_setup(args.timeout, args.initial_tab)
+    return start_setup(args.timeout, "public")
 
 
 if __name__ == "__main__":
