@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DART API 키 등록</title>
+<style>
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}:root{color-scheme:light;--ink:#182b36;--muted:#596870;--line:#d8dfdf;--paper:#fff;--accent:#14594d;--wash:#edf3ef}*{box-sizing:border-box}body{margin:0;background:#f5f5f0;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}.page{max-width:1056px;margin:0 auto;padding:44px 40px 64px}.brand{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:700;letter-spacing:.08em}.mark{display:grid;place-items:center;width:32px;height:32px;border-radius:8px;background:var(--ink);color:#fff;letter-spacing:0;font-size:15px}.topline{margin-top:29px;border:0;border-top:1px solid var(--line)}main{display:grid;grid-template-columns:1fr 1.13fr;gap:70px;padding:68px 0 52px}.eyebrow{margin:0 0 18px;color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.15em}h1{margin:0;font-size:42px;line-height:1.3;letter-spacing:-.055em;font-weight:750}.intro{max-width:330px;margin:24px 0 0;color:var(--muted);font-size:16px;word-break:keep-all}.steps{margin:36px 0 0;padding:0;list-style:none}.steps li{display:flex;gap:12px;align-items:baseline;margin:14px 0;font-size:14px}.number{flex:0 0 23px;color:var(--accent);font-size:11px;font-weight:800;font-variant-numeric:tabular-nums}.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 36px #182b3606;overflow:hidden}.panel-head{padding:27px 30px 23px;border-bottom:1px solid #e6eaea}.panel-head h2{margin:0;font-size:20px;letter-spacing:-.04em}.panel-head p{margin:7px 0 0;font-size:14px;color:var(--muted)}form{padding:28px 30px 0}label{display:block;font-size:14px;font-weight:700;margin-bottom:9px}input{display:block;width:100%;min-height:51px;border:1px solid #a8b6b7;border-radius:7px;background:#fff;color:var(--ink);font:inherit;padding:11px 13px;letter-spacing:.06em}input::placeholder{color:#7b878d;letter-spacing:0;font-size:14px}.hint{font-size:13px;color:var(--muted);margin:10px 0 25px}button{font:inherit;cursor:pointer;min-height:48px;border-radius:7px;font-size:14px;font-weight:700}button.primary{width:100%;border:1px solid var(--accent);background:var(--accent);color:white}button.primary:hover{background:#104b40}button.secondary{width:100%;border:1px solid #bdc9c7;background:white;color:var(--ink)}button.secondary:hover{background:#f4f7f5}a{color:var(--accent);text-underline-offset:4px}a:hover{text-decoration-thickness:2px}:focus-visible{outline:3px solid #b2771d;outline-offset:4px}.public-option{margin:25px -30px 0;padding:23px 30px 28px;background:#f7f9f7;border-top:1px solid #e6eaea}.public-option p{font-size:13px;color:var(--muted);margin:0 0 13px}.error{display:none;margin:0 0 20px;padding:12px 14px;background:#fff1ee;border:1px solid #e7bfb6;border-radius:7px;color:#922e21;font-size:14px;overflow-wrap:anywhere}.completion{display:none;padding:36px 30px}.completion h2{font-size:25px;letter-spacing:-.045em;margin:18px 0 10px}.completion p{font-size:15px;color:var(--muted);margin:0}.status-mark{width:42px;height:42px;display:grid;place-items:center;background:var(--wash);color:var(--accent);border-radius:50%;font-size:23px;font-weight:700}.return{margin-top:26px!important;padding-top:22px;border-top:1px solid var(--line);color:var(--ink)!important;font-weight:650}footer{border-top:1px solid var(--line);padding-top:21px;color:var(--muted);font-size:12px}.state-error .error{display:block}.state-saved .entry,.state-public .entry{display:none}.state-saved .saved,.state-public .public{display:block}@media(max-width:760px){.page{padding:25px 22px 35px}main{grid-template-columns:1fr;gap:31px;padding:36px 0}.topline{margin-top:23px}h1{font-size:35px}.intro{max-width:none;margin-top:16px}.steps{margin-top:22px}.panel-head{padding:23px}.panel form{padding:23px 23px 0}.public-option{margin:23px -23px 0;padding:21px 23px 23px}.completion{padding:28px 23px}.brand{font-size:11px}}@media(prefers-reduced-motion:no-preference){button{transition:background-color .15s}}
+.saved-toast{display:none;position:fixed;z-index:2;inset-block-start:20px;inset-inline-end:20px;align-items:center;gap:9px;padding:11px 15px;border:1px solid #c5d8cf;border-radius:9px;background:var(--paper);color:var(--accent);box-shadow:0 6px 24px #182b361a;font-size:14px;font-weight:700}
+.state-public .saved-toast,.state-saved .saved-toast{display:flex;animation:hide-saved-toast 3.5s step-end forwards}
+@keyframes hide-saved-toast{to{visibility:hidden}}
+@media(max-width:760px){.saved-toast{inset-block-start:86px}}
+</style>
+</head>
+<body class="state-{{STATE}}">
+<div class="saved-toast" aria-hidden="true"><span>✓</span>설정이 저장되었습니다</div>
+<div class="page">
+<header class="brand"><span class="mark" aria-hidden="true">F</span><span>FINANCIAL STATEMENTS</span></header>
+<hr class="topline">
+<main>
+<section aria-labelledby="page-title">
+<h1 id="page-title">DART 공시 조회 설정</h1>
+<p class="intro">API 키 없이 공개 DART에서 같은 공시와 주석을 읽을 수 있습니다. 보고서 몇 건이나 우발부채 같은 주석 분석은 공개 조회로 충분합니다.</p>
+<p class="intro">여러 회사와 기간에 걸쳐 매출이나 영업이익을 모을 때는 API에서 항목별 수치를 받아 AI가 필요한 항목만 읽어 AI 사용량이 줄어들 수 있습니다. 주석 분석에서는 두 경로 모두 같은 원문 주석을 AI가 읽습니다.</p>
+<ol class="steps">
+<li><span><a href="https://opendart.fss.or.kr/uss/umt/EgovMberInsertView.do" target="_blank" rel="noopener noreferrer">Open DART에서 API 키 발급받기<span class="sr-only"> (새 탭)</span></a></span></li>
+<li><span>발급받은 인증키를 복사해 등록해 주세요.</span></li>
+</ol>
+</section>
+<section class="panel" aria-label="DART 조회 설정">
+<div class="entry">
+<div class="panel-head"><h2>API 키 등록</h2><p>여러 회사와 기간에 걸친 수치 수집에 활용합니다.</p></div>
+<form method="post">
+<div class="error" role="alert">{{ERROR}}</div>
+<label for="dart-key">DART API 키</label>
+<input id="dart-key" name="key" type="password" autocomplete="off" placeholder="인증키 붙여 넣기" aria-describedby="key-hint" spellcheck="false" autocapitalize="none">
+<p id="key-hint" class="hint">API 키는 이 컴퓨터에서 현재 로그인한 계정에 연결된 보안 저장소에 저장됩니다.</p>
+<button class="primary" type="submit" name="action" value="save">API 키 저장</button>
+<div class="public-option"><p>키 등록 없이 바로 시작하세요.</p><button class="secondary" type="submit" name="action" value="skip" formnovalidate>공개 DART로 조회</button></div>
+</form>
+</div>
+<div class="completion saved" role="status"><span class="status-mark" aria-hidden="true">✓</span><h2>API 키를 저장했습니다</h2><p>DART API로 기업 공시와 재무제표를 조회할 준비를 마쳤습니다.</p><p class="return">채팅으로 돌아가 “계속”이라고 보내세요.</p></div>
+<div class="completion public" role="status"><span class="status-mark" aria-hidden="true">✓</span><h2>공개 DART로 조회합니다</h2><p>DART 공개 사이트에서 기업 공시와 재무제표를 조회합니다. 나중에 채팅에서 API 키 등록을 요청할 수 있습니다.</p><p class="return">채팅으로 돌아가 “계속”이라고 보내세요.</p></div>
+</section>
+</main>
+<footer>금융감독원 전자공시시스템 DART</footer>
+</div>
+</body>
+</html>
